@@ -25,4 +25,4 @@ jobs:
     - name: Create .npmrc secret file
       run: |
         echo "registry=https://registry.npmjs.org/" > .npmrc
-        echo "//registry.npmjs.org/:_authToken=${{ secrets
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN
