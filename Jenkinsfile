@@ -2,7 +2,6 @@ pipeline {
     agent any
     
     environment {
-        // Reference stored credentials (SECURITY BEST PRACTICE #2)
         DOCKER_CREDS = credentials('dockerhub-credentials')
         IMAGE_NAME = 'my-secure-app'
         IMAGE_TAG = "${BUILD_NUMBER}"
@@ -56,13 +55,15 @@ registry=https://registry.npmjs.org/
     
     post {
         always {
-            script {
-                echo 'Cleaning up...'
-                sh "docker logout"
-                sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true"
-                sh "docker rmi ${IMAGE_NAME}:latest || true"
-                // Clean up secret files (SECURITY BEST PRACTICE #2)
-                sh "rm -f .npmrc"
+            node {
+                script {
+                    echo 'Cleaning up...'
+                    sh "docker logout"
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true"
+                    sh "docker rmi ${IMAGE_NAME}:latest || true"
+                    // Clean up secret files (SECURITY BEST PRACTICE #2)
+                    sh "rm -f .npmrc"
+                }
             }
         }
     }
