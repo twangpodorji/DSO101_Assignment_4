@@ -55,7 +55,7 @@ registry=https://registry.npmjs.org/
     
     post {
         always {
-            node {
+            node('any') { // Specify the label for the node block
                 script {
                     echo 'Cleaning up...'
                     sh "docker logout"
